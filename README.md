@@ -15,5 +15,5 @@ Single-page marketing site for **The Missing Conversations**, built with semanti
 ## Next Steps
 
 - Install Node.js and switch to a proper Tailwind build pipeline (Tailwind CLI or Vite) so production builds are optimized.
-- Replace placeholder assets (e.g., the headshot) and embed the real ConvertKit form snippet once it is available.
+- Draft an onboarding email template since the MVP uses manual replies sent from `themissingconversationsguide@gmail.com`.
 - Expand the JavaScript in `src/js/main.js` if you need richer interactivity beyond the mobile menu toggle and dynamic footer year.
