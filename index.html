@@ -38,11 +38,12 @@
     <style>
       :root {
         --parchment: #f7f0e7;
-        --grain-light: rgba(255, 250, 240, 0.8);
+        --grain-light: rgba(255, 250, 240, 0.85);
       }
       html {
         scroll-behavior: smooth;
         background-color: var(--parchment);
+        scroll-padding-top: clamp(4rem, 6vw, 7rem);
       }
       body {
         font-family: "Lato", system-ui, sans-serif;
@@ -54,6 +55,10 @@
           linear-gradient(45deg, rgba(83, 109, 90, 0.05), transparent 55%);
         background-size: 24px 24px, 100% 100%, 100% 100%;
         background-repeat: repeat, no-repeat, no-repeat;
+      }
+      #hero,
+      .anchor-section {
+        scroll-margin-top: clamp(4.5rem, 7vw, 7rem);
       }
       .texture-overlay {
         position: absolute;
@@ -108,28 +113,76 @@
         border-radius: 999px;
         opacity: 0.7;
       }
-      .ml-form-embed form {
-        display: grid;
-        gap: 1rem;
-      }
-      .ml-form-embed input[type="text"],
-      .ml-form-embed input[type="email"] {
+      .compass-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.35rem 0.9rem;
         border-radius: 999px;
-        border: 1px solid rgba(50, 41, 47, 0.15);
-        padding: 0.75rem 1.25rem;
-        background: rgba(255, 255, 255, 0.88);
+        border: 1px solid rgba(181, 101, 29, 0.4);
+        background: rgba(247, 240, 231, 0.9);
+        font-size: 0.8rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: #6b4a2f;
+      }
+      .ink-list li {
+        display: flex;
+        gap: 0.75rem;
+        align-items: flex-start;
+      }
+      .ink-list li::before {
+        content: "✥";
+        color: #b5651d;
+        font-size: 0.8rem;
+        position: relative;
+        top: 0.25rem;
+      }
+      .map-ring {
+        position: absolute;
+        inset: auto auto 8% -12%;
+        width: 360px;
+        height: 360px;
+        border: 1px solid rgba(50, 41, 47, 0.2);
+        border-radius: 50%;
+        opacity: 0.18;
+        transform: rotate(-8deg);
+      }
+      .hero-title {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(3.2rem, 5vw, 4.8rem);
+        line-height: 1.1;
+        letter-spacing: -0.01em;
         color: #32292f;
       }
-      .ml-form-embed button {
-        border-radius: 999px;
-        background: #2d3a3f;
-        color: #f7f0e7;
-        font-weight: 600;
-        padding: 0.75rem 1.5rem;
-        transition: background 200ms ease;
+      .hero-hook {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(1.9rem, 3vw, 2.8rem);
+        line-height: 1.2;
+        color: #b5651d;
       }
-      .ml-form-embed button:hover {
-        background: #b5651d;
+      .hero-hook span {
+        display: inline-block;
+      }
+      .hero-hook span:first-child {
+        padding: 0.4rem 0.6rem;
+        background: rgba(50, 41, 47, 0.06);
+        border-left: 4px solid #b5651d;
+        border-radius: 6px;
+        color: #2d3a3f;
+      }
+      .hero-hook span:last-child {
+        margin-top: 0.5rem;
+        padding-left: 0.4rem;
+        border-left: 4px solid #2d3a3f;
+        color: #2d3a3f;
+      }
+      @media (max-width: 768px) {
+        .map-ring {
+          width: 220px;
+          height: 220px;
+          inset: auto -30% 6% auto;
+        }
       }
       @media (max-width: 768px) {
         .section-shell {
@@ -139,31 +192,26 @@
     </style>
   </head>
   <body class="antialiased">
-    <header class="sticky top-0 z-30 border-b border-dusk/10 bg-parchment/85 shadow-sm backdrop-blur-md supports-[backdrop-filter]:bg-parchment/75">
+    <header class="sticky top-0 z-40 border-b border-black/40 bg-[#1f1b17] text-parchment shadow-[0_8px_18px_rgba(15,10,8,0.4)]">
       <div class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-        <a href="#hero" class="text-lg font-semibold tracking-wide text-dusk">The Missing Conversations</a>
-        <nav class="hidden items-center gap-6 text-sm font-medium text-dusk md:flex">
-          <a href="#big-idea" class="hover:text-clay">Big Idea</a>
-          <a href="#our-approach" class="hover:text-clay">Approach</a>
-          <a href="#conversations" class="hover:text-clay">Conversations</a>
-          <a href="#free-guide" class="hover:text-clay">Free Guide</a>
-          <a href="#about-us" class="hover:text-clay">About</a>
-          <a href="#community" class="hover:text-clay">Community</a>
+        <a href="#hero" class="text-lg font-semibold tracking-wide text-[#fdf6ee]">The Missing Conversations</a>
+        <nav class="hidden items-center gap-6 text-sm font-semibold text-[#fdf6ee] md:flex">
+          <a href="#big-idea" class="transition hover:text-clay">Big Idea</a>
+          <a href="#our-approach" class="transition hover:text-clay">Approach</a>
+          <a href="#conversations" class="transition hover:text-clay">Conversations</a>
+          <a href="#free-guide" class="transition hover:text-clay">Free Guide</a>
+          <a href="#about-us" class="transition hover:text-clay">About</a>
+          <a href="#community" class="transition hover:text-clay">Community</a>
         </nav>
-        <a
-          href="#free-guide"
-          class="hidden rounded-full bg-dusk px-5 py-2 text-sm font-semibold text-parchment transition hover:bg-clay md:inline-flex"
-          >Get the Guide</a
-        >
         <button
           type="button"
           id="mobile-menu-toggle"
-          class="inline-flex items-center rounded-md border border-dusk/20 px-3 py-2 text-sm font-medium text-dusk md:hidden"
+          class="inline-flex items-center rounded-md border border-parchment/30 px-3 py-2 text-sm font-medium text-parchment md:hidden"
         >
           Menu
         </button>
       </div>
-      <div id="mobile-menu" class="mx-6 mb-4 hidden flex-col gap-3 rounded-md border border-dusk/10 bg-parchment p-4 text-sm md:hidden">
+      <div id="mobile-menu" class="mx-6 mb-4 hidden flex-col gap-3 rounded-md border border-parchment/20 bg-[#2a241e] p-4 text-sm text-[#fdf6ee] md:hidden">
         <a href="#big-idea" class="hover:text-clay">Big Idea</a>
         <a href="#our-approach" class="hover:text-clay">Approach</a>
         <a href="#conversations" class="hover:text-clay">Conversations</a>
@@ -176,55 +224,58 @@
     <main id="hero">
       <section class="relative overflow-hidden bg-gradient-to-b from-parchment via-parchment to-white">
         <div class="absolute inset-0 opacity-25">
-          <div class="pointer-events-none h-full w-full bg-[radial-gradient(circle_at_top,_#b5651d1a,_transparent_60%)]"></div>
-          <div class="texture-overlay opacity-50"></div>
+          <div class="pointer-events-none h-full w-full bg-[radial-gradient(circle_at_top,_#b5651d1a,_transparent_70%)]"></div>
+          <div class="texture-overlay opacity-40"></div>
+          <div class="map-ring hidden md:block"></div>
         </div>
-        <div class="relative mx-auto flex max-w-5xl flex-col items-start gap-6 px-6 pb-20 pt-24 text-dusk md:pt-32">
-          <p class="text-sm uppercase tracking-[0.3em] text-clay/80">The Missing Conversations</p>
-          <h1 class="font-serif text-4xl leading-tight text-ink md:text-6xl">
-            A Guide to the Talks Nobody Prepared Us For...<br />
-            ...But Our Kids Need Us to Have.
-          </h1>
-          <p class="max-w-2xl font-serif text-xl text-dusk/90 md:text-2xl">
-            Tapping Your Family's Throughlines to Help Your Kids Navigate an Uncharted World.
-          </p>
-          <p class="max-w-2xl text-base text-dusk/85 md:text-lg">
-            In a world changing faster than ever, guiding our kids through new challenges—from AI to social pressures—feels overwhelming.
-            But the wisdom you already possess, grounded in your family's enduring values, is more powerful than you realize. Discover a
-            two-pronged approach that empowers your family with clarity, connection, and confidence: timeless principles for lasting
-            resilience, and practical guides for navigating urgent challenges.
-          </p>
-          <div class="flex flex-col gap-3 sm:flex-row">
-            <a
-              href="#free-guide"
-              class="inline-flex items-center justify-center rounded-full bg-dusk px-6 py-3 text-sm font-semibold text-parchment transition hover:bg-clay"
-              >Unlock Your Free Interactive AI Guide &amp; Join Our Community</a
-            >
-            <a href="#our-approach" class="inline-flex items-center justify-center text-sm font-semibold text-dusk underline-offset-4 hover:text-clay">
-              Learn More About Our Approach
-            </a>
+        <div class="relative mx-auto max-w-5xl px-6 pb-16 pt-28 text-dusk sm:pb-24">
+          <div class="space-y-20">
+            <div class="space-y-0">
+              <h1 class="hero-title">The Missing Conversations</h1>
+              <p class="hero-hook">
+                <span>A Guide to the Talks Nobody Prepared Us For...</span><br />
+                <span>...But Our Kids Need Us to Have.</span>
+              </p>
+            </div>
+            <div class="section-shell px-8 py-8">
+              <h2 class="decorated-heading font-serif text-3xl text-ink md:text-4xl">The Talks Our Kids Needs Us to Have</h2>
+              <p class="mt-4 text-base text-dusk/85 md:text-lg">
+                Today's parents face a world unlike any other. Challenges we didn't grow up with—from the complexities of AI and pervasive
+                digital distraction to a polarized public square—can feel overwhelming. Traditional sources of guidance often lag behind, and
+                powerful tech companies sometimes actively create environments that challenge family connection and child development. But
+                here's the powerful truth: You are more capable than you realize. You already possess a deep well of wisdom, anchored in your
+                family's enduring values and life lessons. Our mission is to help you tap into that inherent strength, bridging the gap between
+                your timeless family compass and the uncharted territory your kids are navigating. We believe empowered parents foster
+                connected, resilient children, ready to thrive in any future.
+              </p>
+            </div>
           </div>
+          <div class="mt-12 h-px w-full bg-gradient-to-r from-transparent via-dusk/20 to-transparent"></div>
         </div>
       </section>
 
-      <section id="big-idea" class="bg-transparent py-24 scroll-mt-28 md:scroll-mt-36">
-        <div class="mx-auto max-w-4xl px-6">
-          <div class="section-shell px-6 py-10 md:px-12">
-            <h2 class="decorated-heading font-serif text-3xl text-ink md:text-4xl">Bridging the Gap: Timeless Guidance for Today's World.</h2>
+      <section class="bg-transparent py-8">
+        <div class="mx-auto max-w-5xl px-6">
+          <div class="section-shell px-8 py-8 text-dusk/90">
+            <h2 class="decorated-heading font-serif text-3xl text-ink md:text-4xl">Bridging the Gap: Timeless Guidance for Today's World</h2>
             <p class="mt-6 text-lg leading-relaxed text-dusk/90">
-            Today's parents face a world unlike any other. Challenges we didn't grow up with—from the complexities of AI and pervasive
-            digital distraction to a polarized public square—can feel overwhelming. Traditional sources of guidance often lag behind, and
-            powerful tech companies sometimes actively create environments that challenge family connection and child development. But
-            here's the powerful truth: You are more capable than you realize. You already possess a deep well of wisdom, anchored in your
-            family's enduring values and life lessons. Our mission is to help you tap into that inherent strength, bridging the gap between
-            your timeless family compass and the uncharted territory your kids are navigating. We believe empowered parents foster
-            connected, resilient children, ready to thrive in any future.
+                In a world changing faster than ever, guiding our kids through new challenges—from AI to social pressures—feels overwhelming.
+                But the wisdom you already possess, grounded in your family's enduring values, is more powerful than you realize. Discover a
+                two-pronged approach to conversation that empowers your family with clarity, connection, and confidence: timeless principles
+                for lasting resilience, and practical guides for navigating urgent challenges. <br /><br />
             </p>
+            <h2 class="decorated-heading font-serif text-3xl text-ink md:text-4xl">An Invitation</h2>
+            <ul class="mt-6 space-y-6 text-base">
+              <li>• To rediscover and name the throughlines that serve as your family's compass.</li>
+              <li>• To apply that compass to new terrain: AI, social pressures, attention traps, and polarized spaces.</li>
+              <li>• To equip your family with the tools to navigate uncharted territories together.</li>
+              <li>• To join a community of parents choosing to have the difficult talks our kids need us to have.</li>
+            </ul>
           </div>
         </div>
       </section>
 
-      <section id="our-approach" class="bg-transparent py-24 scroll-mt-28 md:scroll-mt-36">
+      <section id="our-approach" class="anchor-section bg-transparent py-24">
         <div class="mx-auto max-w-5xl px-6">
           <div class="section-shell space-y-12 px-6 py-10 md:px-12">
             <div>
@@ -270,7 +321,7 @@
         </div>
       </section>
 
-      <section id="conversations" class="bg-transparent py-24 scroll-mt-28 md:scroll-mt-36">
+      <section id="conversations" class="anchor-section bg-transparent py-24">
         <div class="mx-auto max-w-6xl px-6">
           <div class="section-shell px-6 py-10 md:px-12">
             <div class="md:text-center">
@@ -324,7 +375,7 @@
         </div>
       </section>
 
-      <section id="free-guide" class="bg-transparent py-24 scroll-mt-28 md:scroll-mt-36">
+      <section id="free-guide" class="anchor-section bg-transparent py-24">
         <div class="mx-auto max-w-5xl px-6">
           <div class="section-shell px-6 py-10 md:px-12">
             <div class="grid gap-12 md:grid-cols-[1.3fr_1fr] md:items-start">
@@ -341,14 +392,14 @@
                 </p>
                 <div class="mt-8 space-y-4 text-base text-dusk/90">
                   <p>
-                    For the MVP, I'm personally welcoming every family into the community. Send a quick note to
+                    I'm personally welcoming every family into the community. Send a quick note to
                     <a href="mailto:themissingconversationsguide@gmail.com" class="font-semibold text-clay underline">themissingconversationsguide@gmail.com</a>
-                    with your name, your kids' ages, and what led you here. I'll reply with your Interactive Guide and a warm introduction.
+                    with your name, general location, your kids' ages, and what led you here. I'll reply with your Interactive Guide and a warm introduction.
                   </p>
                   <a
                     href="mailto:themissingconversationsguide@gmail.com?subject=I'd%20love%20the%20Interactive%20Guide"
                     class="inline-flex items-center justify-center rounded-full bg-dusk px-6 py-3 text-sm font-semibold text-parchment transition hover:bg-clay"
-                    >Email Mike &amp; Get the Guide</a
+                    >Email Whit &amp; Get the Guide</a
                   >
                 </div>
               </div>
@@ -366,7 +417,7 @@
         </div>
       </section>
 
-      <section id="about-us" class="bg-transparent py-24 scroll-mt-28 md:scroll-mt-36">
+      <section id="about-us" class="anchor-section bg-transparent py-24">
         <div class="mx-auto max-w-5xl px-6">
           <div class="section-shell px-6 py-10 md:px-12">
             <div class="grid gap-12 md:grid-cols-[minmax(240px,1fr)_1.6fr] md:items-center">
@@ -408,7 +459,7 @@
         </div>
       </section>
 
-      <section id="community" class="bg-transparent py-24 scroll-mt-28 md:scroll-mt-36">
+      <section id="community" class="anchor-section bg-transparent py-24">
         <div class="mx-auto max-w-4xl px-6">
           <div class="section-shell px-6 py-10 text-center md:px-12">
             <h2 class="decorated-heading font-serif text-3xl text-ink md:text-4xl">You're Not Alone. Join a Community of Connected Parents.</h2>
@@ -419,22 +470,22 @@
             </p>
             <div class="mt-8">
               <a
-                href="#free-guide"
-                class="inline-flex items-center justify-center rounded-full bg-dusk px-6 py-3 text-sm font-semibold text-parchment transition hover:bg-clay"
-                >Connect with Us &amp; Get Started</a
+                    href="mailto:themissingconversationsguide@gmail.com?subject=I'd%20love%20the%20Interactive%20Guide"
+                    class="inline-flex items-center justify-center rounded-full bg-dusk px-6 py-3 text-sm font-semibold text-parchment transition hover:bg-clay"
+                    >Email Whit &amp; to Join the Community</a
               >
             </div>
           </div>
         </div>
       </section>
 
-      <section id="whats-next" class="bg-transparent py-24 scroll-mt-28 md:scroll-mt-36">
+      <section id="whats-next" class="anchor-section bg-transparent py-24">
         <div class="mx-auto max-w-4xl px-6">
           <div class="section-shell px-6 py-10 md:px-12">
             <h2 class="decorated-heading font-serif text-3xl text-ink md:text-4xl">Continue Your Journey.</h2>
             <p class="mt-6 text-lg leading-relaxed text-dusk/90">
               Your family's growth is an ongoing adventure. As "The Missing Conversations" evolves, we'll continue to provide resources to
-              support you—from the forthcoming book, to community gatherings, to workshops tailored for schools and organizations.
+              support you—from the forthcoming workbook, to community gatherings, to workshops tailored for schools and organizations.
             </p>
           </div>
         </div>
